@@ -25,10 +25,10 @@ def run():
 def ping_server():
     while True:
         try:
-            requests.get('http://bottg-howchocolateareyou--solidus66.repl.co')
+            requests.get('http://bottg-howinoplanetyanareyou.solidus66.repl.co')
         except requests.exceptions.RequestException:
             pass
-        time.sleep(300)  # Отправлять запрос каждые 5 минут (300 секунд)
+        time.sleep(100)  # Отправлять запрос каждые 5 минут (300 секунд)
 
 def keep_alive():
     t = Thread(target=run)
