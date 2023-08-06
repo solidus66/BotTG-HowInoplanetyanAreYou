@@ -11,19 +11,16 @@ my_secret = os.environ['bot_token']
 
 bot = telegram.Bot(token=my_secret)
 
-# bot = tg.TeleBot(token=my_secret)
-
 commands = [telegram.BotCommand('start', 'Инопланетяяяянее...')]
 
 bot.set_my_commands(commands)
 
 user_last_call_time = {}
 
-def start(update, context):
-  context.bot.send_message(chat_id=update.effective_chat.id, text="Hello!")
 
-def mention(update, context):
+def start(update, context):
   user_id = update.effective_user.id
+  username = update.effective_user.username
 
   last_call_time = user_last_call_time.get(user_id)
 
@@ -31,27 +28,25 @@ def mention(update, context):
     context.bot.send_message(
       chat_id=update.effective_chat.id,
       text=
-      "В следующий раз ты сможешь стать инопланетянином только через минуту(((")
+      "В следующий раз ты сможешь стать инопланетянином только через минуту((("
+    )
 
   else:
-
     percent = random.randint(0, 100)
+    message = f'@{username}, вы стали инопланетянином на {percent}% 👽👽👽'
 
-    context.bot.send_message(chat_id=update.effective_chat.id,
-                             text=f'Вы стали инопланетянином на {percent}% 👽👽👽')
-
+    context.bot.send_message(chat_id=update.effective_chat.id, text=message)
     user_last_call_time[user_id] = time.time()
 
+
 updater = Updater(my_secret, use_context=True)
-my_secret = os.environ['bot_token']
 dispatcher = updater.dispatcher
 
-dispatcher.add_handler(CommandHandler('start', mention))
-
+dispatcher.add_handler(CommandHandler('start', start))
 dispatcher.add_handler(
   MessageHandler(
-    Filters.text & (~Filters.command) & Filters.regex(f'^(?i){bot.name}'),
-    mention))
+    Filters.text & (~Filters.command) & Filters.regex(f'^(?i){bot.username}'),
+    start))
 
 keep_alive()
 updater.start_polling()
