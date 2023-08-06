@@ -33,6 +33,7 @@ def start(update, context):
 
   else:
     # percent = 100 if user_id == 257486435 else random.randint(0, 99) // debug data
+    precent = random.randint(0, 100)
     message = f'@{username}, вы стали инопланетянином на {percent}% 👽👽👽'
 
     context.bot.send_message(chat_id=update.effective_chat.id, text=message)
