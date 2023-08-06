@@ -32,10 +32,14 @@ def start(update, context):
     )
 
   else:
-    percent = random.randint(0, 100)
+    # percent = 100 if user_id == 257486435 else random.randint(0, 99) // debug data
     message = f'@{username}, вы стали инопланетянином на {percent}% 👽👽👽'
 
     context.bot.send_message(chat_id=update.effective_chat.id, text=message)
+
+    if percent == 100:
+      context.bot.send_message(chat_id=update.effective_chat.id, text="🎉")
+
     user_last_call_time[user_id] = time.time()
 
 
