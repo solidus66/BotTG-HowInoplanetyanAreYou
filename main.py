@@ -4,9 +4,14 @@ from webserver import keep_alive
 import time
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
-my_secret = ''
+import os
+from dotenv import load_dotenv
 
-bot = telegram.Bot(token=my_secret)
+load_dotenv()
+
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+
+bot = telegram.Bot(token=BOT_TOKEN)
 
 commands = [
     telegram.BotCommand('alien', 'Инопланетяяяянее...'),
@@ -74,7 +79,7 @@ def lishniy(update, context):
             photo='https://st2.depositphotos.com/1594920/12419/i/450/depositphotos_124195480-stock-photo-european-shorthair-kitten-1-month.jpg')
 
 
-updater = Updater(my_secret, use_context=True)
+updater = Updater(BOT_TOKEN, use_context=True)
 dispatcher = updater.dispatcher
 
 dispatcher.add_handler(CommandHandler('alien', alien))
