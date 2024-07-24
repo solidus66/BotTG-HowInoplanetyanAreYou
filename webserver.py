@@ -1,6 +1,8 @@
 import os
+import time
 from flask import Flask
 from threading import Thread
+import requests
 
 app = Flask(__name__)
 
@@ -16,5 +18,19 @@ def run():
 
 
 def keep_alive():
-    t = Thread(target=run)
-    t.start()
+    url = "https://bottg-howinoplanetyanareyou.onrender.com"
+    while True:
+        try:
+            requests.get(url)
+            print(f"Sent keep-alive request to {url}")
+        except Exception as e:
+            print(f"Error keeping alive: {e}")
+        time.sleep(300)
+
+
+if __name__ == '__main__':
+    server_thread = Thread(target=run)
+    server_thread.start()
+
+    keep_alive_thread = Thread(target=keep_alive)
+    keep_alive_thread.start()
