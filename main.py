@@ -1,8 +1,9 @@
 import telegram
 import random
-from webserver import keep_alive
+from webserver import run_server, keep_alive
 import time
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from threading import Thread, Timer
 
 import os
 from dotenv import load_dotenv
@@ -88,6 +89,10 @@ dispatcher.add_handler(
     Filters.text & (~Filters.command) & Filters.regex(fr'(?i)^{bot.username}'), alien))
 dispatcher.add_handler(CommandHandler('lishniy', lishniy))
 
-keep_alive()
+server_thread = Thread(target=run_server)
+server_thread.start()
+
+Timer(60, keep_alive).start()
+
 updater.start_polling()
 updater.idle()
